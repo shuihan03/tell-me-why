@@ -1,0 +1,50 @@
+<html>
+      <style>   
+      .parent{
+        width: 200px;
+        height: 200px;
+        border: 1px solid red;
+        position: relative;
+       }
+       .child{
+        width: 50px;
+        height: 50px;
+        border: 1px solid red;
+        position: absolute;
+        margin: 50px;
+       }
+       </style>
+           <div>
+                <label><input name="event-pattern" type="radio" value="" checked onclick="setEventBindPattern('bubble')" />事件冒泡
+                </label>
+                <label><input name="event-pattern" type="radio" value="" onclick="setEventBindPattern('catch')" />事件捕获 </label>
+            </div>
+            <div id="parent" class="parent"> parent
+                <div id="child" class="child"> child</div>
+            </div>
+<script type="text/javascript">
+     //  第三个参数默认为false;false=冒泡;true=捕获；
+     //document.getElementById("parent").addEventListener('click',function(){},false)
+    function eventParent(){
+        alert("parent事件被触发，" + this.id);
+    }
+    function eventChild(){
+        alert("child事件被触发，" + this.id);
+    }
+    function setEventBindPattern(eventType) {
+        //解绑事件
+        document.getElementById("parent").removeEventListener('click',eventParent);
+        document.getElementById("child").removeEventListener('click',eventChild);
+        if (eventType === 'bubble') {
+            //事件冒泡
+            document.getElementById("parent").addEventListener("click",eventParent)
+            document.getElementById("child").addEventListener("click", eventChild)
+        } else {
+            //事件捕获
+            document.getElementById("parent").addEventListener("click",eventParent,true)
+            document.getElementById("child").addEventListener("click", eventChild,true)
+        }
+    }
+    setEventBindPattern('bubble');//初始化默认为冒泡
+</script>
+</html>
